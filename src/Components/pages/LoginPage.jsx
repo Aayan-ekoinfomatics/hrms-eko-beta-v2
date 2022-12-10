@@ -43,8 +43,8 @@ const LoginPage = () => {
 
   return (
     <div className="w-full flex justify-center items-center h-screen bg-gradient-to-tr from-[#E5E5F8] to-[#B8BCFF]">
-        <div className='w-full absolute top-0 h-screen overflow-hidden'>
-            <img src={login_bg} className=" w-full object-cover" />
+        <div className='w-full fixed inset-0 h-screen'>
+            <img src={login_bg} className=" w-full object-cover h-full" />
         </div>
         <motion.form animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0 }} transition={{ opacity: { duration: 1.3 }, default: { ease: "linear" }, delay: 0 }} className='z-[100] bg-white rounded-md px-3 min-w-[300px] shadow-lg' onSubmit={loginFunctionality}>
             <div className='w-full flex justify-center py-3 my-3'>
