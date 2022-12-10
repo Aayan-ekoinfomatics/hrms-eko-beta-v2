@@ -22,9 +22,9 @@ const LoginPage = () => {
         e.preventDefault()
 
         if(emailRef?.current?.value?.length === 0 || passwordRef?.current?.value?.length === 0) {
-            // setErrorText('Please fill both the fields')
-            console.log(errorText)
-        }else {
+            setErrorText('Please fill all fields')
+            // console.log(errorText)
+        }else if (emailRef?.current?.value?.length > 5 && passwordRef?.current?.value?.length > 8) {
             // console.log('email: ', emailRef?.current?.value)
             // console.log('password: ', passwordRef?.current?.value)
 
@@ -68,10 +68,13 @@ const LoginPage = () => {
                 <div className='flex items-center rounded-md border border-[#69696946]'>
                     <input onKeyDown={(event) => {
                             const { key } = event;
-                            if ((key === "Enter" || passwordRef?.current?.value?.length === 10)) {
+                            if ((key === "Enter" && passwordRef?.current?.value?.length === 0)) {
                                 setErrorText('Password Required')
                             }
-                            else if (key === "Enter" || passwordRef?.current?.value?.length !== 0) {
+                            else if (key === "Enter" && passwordRef?.current?.value?.length < 8) {
+                                setErrorText('Password too short')
+                            //   passwordRef.current.focus();
+                            }else if (key === "Enter" && passwordRef?.current?.value?.length > 8) {
                                 setErrorText('')
                             //   passwordRef.current.focus();
                             }
@@ -94,7 +97,7 @@ const LoginPage = () => {
                     <p className='text-red-500 text-[10px] pl-1 pt-1'>{errorText}</p>
                 }
             </div>
-                <button className='text-center w-full py-2 mb-3 mt-3 rounded-md text-white bg-gradient-to-tr from-[#5f66e1] to-[#b8bcff]'>
+                <button className='text-center w-full py-2 mb-3 mt-3 rounded-md text-white bg-[#5f66e1]'>
                     Login
                 </button>
         </motion.form>
