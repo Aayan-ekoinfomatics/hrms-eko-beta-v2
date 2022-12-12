@@ -35,7 +35,7 @@ const MainDasboard = () => {
                 animate={{ y: [-15, 0, 0], opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0 }}
                 transition={{ x: { duration: 1.5 }, default: { ease: "linear" }, delay: 0 }}
                 className='w-[90%] mx-auto flex justify-between'>
-                <div className='flex flex-col justify-start items-start'>
+                <div className='flex flex-col justify-start items-start pl-1'>
                     <h1 className='poppins text-[18px] md:text-[23px] tracking-tight leading-3 md:leading-4 font-[600]'>Hello <span className='text-[#5f66e1]'>{userDashboardData?.user_data?.user_name}</span></h1>
                     <p className='text-[#575757] font-[500] text-[14px] md:text-[18px]'>{userDashboardData?.user_data?.user_position}</p>
                 </div>
