@@ -1,13 +1,27 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import hexToRGB from '../../helpers/hexToRGB';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import leaveApiData from '../../mockApi/leaveApiData';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { useRecoilState } from 'recoil';
+import popUpToggleAtom from '../../recoil/popUpToggleAtom';
+import Overlay from '../individual-components/Overlay';
 
 const Leaves = () => {
 
-    const [popUpToggle, setPopUpToggle] = useState(false);
+    // const [popUpToggle, setPopUpToggle] = useState(false);
+
+    const [popUpToggle, setPopUpToggle] = useRecoilState(popUpToggleAtom)
+
+    useEffect(() => {
+        setPopUpToggle({
+            ...popUpToggle,
+            attendencePopUpToggle: false,
+            leavesPopUpToggle: false,
+            tasklogPopUpToggle: false,
+        })
+    }, []);
 
 
     return (
@@ -19,7 +33,12 @@ const Leaves = () => {
                             <h1 className='text-[18px] md:text-[20px] font-[500]'>Leaves</h1>
                         </div>
                         <button className=''>
-                            <AddRoundedIcon className="text-white bg-[#5f66e1] w-full rounded-md active:scale-[0.9] active:text-[#5f65e1e1] transition-all duration-100" fontSize='medium' onClick={() => setPopUpToggle(!popUpToggle)} />
+                            <AddRoundedIcon className="text-white bg-[#5f66e1] w-full rounded-md active:scale-[0.9] active:text-[#5f65e1e1] transition-all duration-100" fontSize='medium' onClick={() => {
+                                setPopUpToggle({
+                                    ...popUpToggle,
+                                    leavesPopUpToggle: true,
+                                })
+                            }} />
                         </button>
                     </div>
                 </div>
@@ -50,13 +69,20 @@ const Leaves = () => {
                 </div>
             </div>
 
-            <div onClick={() => setPopUpToggle(false)} className={`fixed bg-black z-[90] inset-0 opacity-60 ${popUpToggle ? 'block' : 'hidden'}`}>
+            {/* overlay */}
+            <Overlay />
+            {/* <div onClick={() => setPopUpToggle(false)} className={`fixed bg-black z-[90] inset-0 opacity-60 ${popUpToggle?.leavesPopUpToggle ? 'block' : 'hidden'}`}>
 
-            </div>
+            </div> */}
 
-            <div className={`fixed top-[20%] bottom-0 left-0 right-0 w-[90%] md:w-[70%] mx-auto h-[60vh] z-[100] bg-white justify-center items-center rounded-xl ${popUpToggle ? 'block' : 'hidden'}`}>
+            <div className={`fixed top-[20%] bottom-0 left-0 right-0 w-[90%] md:w-[70%] mx-auto h-[60vh] z-[100] bg-white justify-center items-center rounded-xl ${popUpToggle?.leavesPopUpToggle ? 'block' : 'hidden'}`}>
                 <div className='w-full text-right pr-5 pt-5 text-[20px]'>
-                    <button onClick={() => setPopUpToggle(false)}>
+                    <button onClick={() => {
+                        setPopUpToggle({
+                            ...popUpToggle,
+                            leavesPopUpToggle: false,
+                        })
+                    }}>
                         <CancelIcon fontSize='large' className='text-[#5f66e1] active:scale-[0.9] active:text-[#5f65e1e1] transition-all duration-100' />
                     </button>
                 </div>

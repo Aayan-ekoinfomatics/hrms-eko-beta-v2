@@ -4,13 +4,27 @@ import BorderColorRoundedIcon from "@mui/icons-material/BorderColorRounded";
 import EditIcon from '@mui/icons-material/Edit';
 import taskApiData from '../../mockApi/taskApiData';
 import CancelIcon from '@mui/icons-material/Cancel';
+import popUpToggleAtom from '../../recoil/popUpToggleAtom';
+import { useRecoilState } from 'recoil';
+import Overlay from '../individual-components/Overlay';
 
 const TaskLog = () => {
 
-    const [ popUpToggle, setPopUpToggle ] = useState(false);
+    // const [ popUpToggle, setPopUpToggle ] = useState(false);
 
     const [ searchData, setSearchData ] = useState('');
     const [ searchDataMobile, setSearchDataMobile ] = useState('');
+
+    const [popUpToggle, setPopUpToggle] = useRecoilState(popUpToggleAtom)
+
+    useEffect(() => {
+        setPopUpToggle({
+            ...popUpToggle,
+            attendencePopUpToggle: false,
+            leavesPopUpToggle: false,
+            tasklogPopUpToggle: false,
+        })
+    }, []);
 
     // useEffect(() => {
     //   console.log(searchData)
@@ -31,7 +45,12 @@ const TaskLog = () => {
                             <div className='w-full flex gap-3 items-end'>
                                 <input type="search" placeholder='search' className='outline-none px-2 py-1 w-[30%] ml-auto border-b border-b-[#5f66e1] text-[13px]' onChange={(e) => setSearchData(e.target.value)} />
                                 {/* <SearchRoundedIcon fontSize="medium" className="text-[#5f66e1]  w-[25px] cursor-pointer" /> */}
-                                <EditIcon fontSize="medium" className="text-[#5f66e1] w-[25px] cursor-pointer active:scale-[0.9] active:text-[#5f65e1e1] transition-all duration-100" onClick={() => setPopUpToggle(!popUpToggle)} />
+                                <EditIcon fontSize="medium" className="text-[#5f66e1] w-[25px] cursor-pointer active:scale-[0.9] active:text-[#5f65e1e1] transition-all duration-100" onClick={() => {
+                                    setPopUpToggle({
+                                        ...popUpToggle,
+                                        tasklogPopUpToggle: true
+                                    })
+                                }} />
                             </div>
                         </div>
                     </div>
@@ -73,9 +92,14 @@ const TaskLog = () => {
                         </div>
                         <div className='w-full'>
                             <div className='w-full flex gap-3 items-end'>
-                                <input type="search" className='outline-none px-2 py-1 w-full min-w-[70px] text-[12px] ml-auto border-b border-b-[#5f66e1]' onChange={(e) => setSearchDataMobile(e.target.value)} />
-                                <SearchRoundedIcon fontSize="medium" className="text-[#5f66e1]  w-[25px] cursor-pointer" />
-                                <BorderColorRoundedIcon fontSize="medium" className="text-[#5f66e1] w-[25px] cursor-pointer"  onClick={() => setPopUpToggle(!popUpToggle)}/>
+                                <input type="search" placeholder="search" className='outline-none px-2 py-1 w-full min-w-[70px] text-[12px] ml-auto border-b border-b-[#5f66e1]' onChange={(e) => setSearchDataMobile(e.target.value)} />
+                                {/* <SearchRoundedIcon fontSize="medium" className="text-[#5f66e1]  w-[25px] cursor-pointer" /> */}
+                                <EditIcon fontSize="small" className="text-[#5f66e1] w-[25px] cursor-pointer"  onClick={() => {
+                                    setPopUpToggle({
+                                        ...popUpToggle,
+                                        tasklogPopUpToggle: true
+                                    })
+                                }}/>
                             </div>
                         </div>
                     </div>
@@ -145,13 +169,20 @@ const TaskLog = () => {
                 </div>
             </div>
 
-            <div onClick={() => setPopUpToggle(false)} className={`fixed bg-black z-[90] inset-0 opacity-60 ${ popUpToggle ? 'block' : 'hidden' }`}>
+            {/* overlay */}
+            <Overlay />
+            {/* <div onClick={() => setPopUpToggle(false)} className={`fixed bg-black z-[90] inset-0 opacity-60 ${ popUpToggle ? 'block' : 'hidden' }`}>
 
-            </div>
+            </div> */}
 
-            <div className={`fixed top-[20%] bottom-0 left-0 right-0 w-[90%] md:w-[70%] mx-auto h-[60vh] z-[100] bg-white justify-center items-center rounded-xl ${ popUpToggle ? 'block' : 'hidden' }`}>
+            <div className={`fixed top-[20%] bottom-0 left-0 right-0 w-[90%] md:w-[70%] mx-auto h-[60vh] z-[100] bg-white justify-center items-center rounded-xl ${ popUpToggle?.tasklogPopUpToggle ? 'block' : 'hidden' }`}>
                 <div className='w-full text-right pr-5 pt-5 text-[20px]'>
-                    <button onClick={() => setPopUpToggle(false)}>
+                    <button onClick={() => {
+                        setPopUpToggle({
+                            ...popUpToggle,
+                            tasklogPopUpToggle: false,
+                        })
+                    }}>
                         <CancelIcon fontSize='large' className='text-[#5f66e1] active:scale-[0.9] active:text-[#5f65e1e1] transition-all duration-100' />
                     </button>
                 </div>

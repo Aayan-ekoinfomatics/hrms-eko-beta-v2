@@ -1,12 +1,26 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import eventsApiData from '../../mockApi/eventsApiData';
 import hexToRGB from '../../helpers/hexToRGB';
 import { monthList } from '../../helpers/calenderData';
+import { useRecoilState } from 'recoil';
+import popUpToggleAtom from '../../recoil/popUpToggleAtom';
 
 const Events = () => {
 
-    const [ popUpToggle, setPopUpToggle ] = useState(false);
+    // const [ popUpToggle, setPopUpToggle ] = useState(false);
+
+    const [popUpToggle, setPopUpToggle] = useRecoilState(popUpToggleAtom)
+
+    useEffect(() => {
+        setPopUpToggle({
+            ...popUpToggle,
+            attendencePopUpToggle: false,
+            leavesPopUpToggle: false,
+            tasklogPopUpToggle: false,
+            monthListToggle: false,
+        })
+    }, []);
 
 
     return (
@@ -16,15 +30,20 @@ const Events = () => {
                     <div className='w-full flex justify-start'>
                         <h1 className='text-[18px] md:text-[20px] font-[500]'>Events</h1>
                     </div>
-                    <button className=' text-right flex justify-end items-center px-1'  onClick={() => setPopUpToggle(!popUpToggle)}>
+                    <button className=' text-right flex justify-end items-center px-1'  onClick={() => {
+                        setPopUpToggle({
+                            ...popUpToggle,
+                            monthListToggle: true
+                        })
+                    }}>
                         Month
                         <span><KeyboardArrowDownIcon fontSize='medium'/></span>
                     </button>
                 </div>
-                <div className={`absolute top-[70%] right-[3%] rounded-lg min-w-[130px] overflow-hidden transition-all duration-300 z-[90] bg-[#fff] shadow-2xl ${ popUpToggle ? 'border border-[#eeeded] px-4 py-2 h-[300px] overflow-y-scroll ease-in' : 'h-0 ease-out p-0' }`}>
+                <div className={`absolute top-[70%] right-[3%] rounded-lg min-w-[130px] overflow-hidden transition-all duration-300 z-[95] bg-[#fff] shadow-2xl ${ popUpToggle?.monthListToggle ? 'border border-[#eeeded] py-2 h-[300px] overflow-y-scroll ease-in' : 'h-0 ease-out p-0' }`}>
                     {
                         monthList?.map((data, i) => (
-                            <h1 key={i} className='py-2 border-b border-b-[#6969692c] text-[13px] text-[#696969d5] hover:text-black transition-all cursor-pointer'>{data?.longName}</h1>
+                            <h1 key={i} className='py-2 px-4 border-b border-b-[#6969692c] text-[13px] text-[#696969d5] hover:text-black transition-all cursor-pointer'>{data?.longName}</h1>
                         ))
                     }
                 </div>

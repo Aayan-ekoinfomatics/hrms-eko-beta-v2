@@ -1,1 +1,1 @@
-export const base_link = '';
+export const base_link = 'http://192.168.1.18:5000/';
